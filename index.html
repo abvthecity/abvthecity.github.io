@@ -49,6 +49,40 @@
       padding: 1em;
     }
 
+    #wave-emoji {
+      transition: transform 150ms ease-in-out;
+      cursor: none;
+      backface-visibility: hidden;
+      padding: 0.5em;
+      margin: -0.5em;
+      z-index: 2;
+      position: relative;
+    }
+
+    #wave-emoji + * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .wave {
+      display: inline-block;
+      transform: scale(1.2);
+      animation: wave 1s ease-in 150ms;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes wave {
+      0% {
+        transform: rotate(0deg) scale(1.2);
+      }
+      50% {
+        transform: rotate(15deg) scale(1.2);
+      }
+      100% {
+        transform: rotate(0deg) scale(1.2);
+      }
+    }
+
     @media (prefers-color-scheme: dark) {
       html,
       body {
@@ -71,31 +105,42 @@
     </div>
     <script>
       const element = document.getElementById("animated-type");
-      let start, frames;
+      let start, frames, lastFrame;
+      const palantirUrl = document.createElement("a");
+      palantirUrl.setAttribute("rel", "noopener noreferrer");
+      palantirUrl.setAttribute("href", "https://www.palantir.com/");
+      palantirUrl.setAttribute("target", "_blank");
+      palantirUrl.appendChild(document.createTextNode("Palantir"));
+      const mailtoUrl = document.createElement("a");
+      mailtoUrl.setAttribute("href", "mailto:andrewjiang@hey.com");
+      mailtoUrl.appendChild(document.createTextNode("hello"));
+      const waveEmoji = document.createElement("span");
+      waveEmoji.setAttribute("id", "wave-emoji");
+      waveEmoji.appendChild(document.createTextNode("👋"));
       const tokens = [
         "Hello",
         " world",
-        "!",
-        " 👋",
+        "! ",
+        waveEmoji,
         " I",
-        "&rsquo;m",
+        "'m",
         " Andrew",
         ".",
         " I",
-        "&rsquo;m",
+        "'m",
         " an",
         " engineer",
-        " at",
-        ' <a href="https://www.palantir.com/" target="_blank"/>Palantir</a>',
+        " at ",
+        palantirUrl,
         ".",
         " I",
-        "&rsquo;m",
+        "'m",
         " based",
         " in",
         " Brooklyn",
         ".",
-        " Say",
-        ' <a href="mailto:andrewjiang@hey.com">hello</a>',
+        " Say ",
+        mailtoUrl,
         "!",
       ];
 
@@ -108,14 +153,29 @@
 
         const frame = Math.floor(elapsed / 50);
 
-        element.innerHTML = tokens.slice(0, frame).join("");
+        if (frame !== lastFrame) {
+          element.append(
+            typeof tokens[frame] === "string"
+              ? document.createTextNode(tokens[frame])
+              : tokens[frame]
+          );
+        }
+        lastFrame = frame;
 
-        if (frame < tokens.length) {
+        if (frame < tokens.length - 1) {
           window.requestAnimationFrame(step);
         }
       }
 
       window.requestAnimationFrame(step);
+
+      waveEmoji.addEventListener("mouseover", function (e) {
+        waveEmoji.classList.add("wave");
+      });
+
+      waveEmoji.addEventListener("mouseout", function (e) {
+        waveEmoji.classList.remove("wave");
+      });
     </script>
   </body>
 </html>
