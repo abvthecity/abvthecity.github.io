@@ -62,36 +62,27 @@
       }
 
       #wave-emoji {
-        transition: transform 150ms ease-in-out;
         cursor: none;
         backface-visibility: hidden;
-        padding: 0.5em;
-        margin: -0.5em;
         z-index: 2;
         position: relative;
+        display: inline-block;
+        animation: wave 1s ease-in 150ms infinite;
       }
 
       #wave-emoji + * {
         position: relative;
         z-index: 1;
       }
-
-      .wave {
-        display: inline-block;
-        transform: scale(1.2);
-        animation: wave 1s ease-in 150ms;
-        animation-iteration-count: infinite;
-      }
-
       @keyframes wave {
         0% {
-          transform: rotate(0deg) scale(1.2);
+          transform: rotate(0deg);
         }
         50% {
-          transform: rotate(15deg) scale(1.2);
+          transform: rotate(15deg);
         }
         100% {
-          transform: rotate(0deg) scale(1.2);
+          transform: rotate(0deg);
         }
       }
 
@@ -184,14 +175,6 @@
       }
 
       window.requestAnimationFrame(step);
-
-      waveEmoji.addEventListener("mouseover", function (e) {
-        waveEmoji.classList.add("wave");
-      });
-
-      waveEmoji.addEventListener("mouseout", function (e) {
-        waveEmoji.classList.remove("wave");
-      });
 
       if (
         !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
