@@ -193,33 +193,39 @@
         waveEmoji.classList.remove("wave");
       });
 
-      const tooltip = document.createElement("div");
-      tooltip.setAttribute("id", "tooltip");
-      tooltip.setAttribute("role", "tooltip");
+      if (
+        !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        const tooltip = document.createElement("div");
+        tooltip.setAttribute("id", "tooltip");
+        tooltip.setAttribute("role", "tooltip");
 
-      palantirUrl.addEventListener("mouseover", function (e) {
-        document.body.appendChild(tooltip);
-        tooltip.innerHTML = "Open palantir.com in a new tab";
-        Popper.createPopper(palantirUrl, tooltip, {
-          placement: "bottom",
+        palantirUrl.addEventListener("mouseover", function (e) {
+          document.body.appendChild(tooltip);
+          tooltip.innerHTML = "Open palantir.com in a new tab";
+          Popper.createPopper(palantirUrl, tooltip, {
+            placement: "bottom",
+          });
         });
-      });
 
-      palantirUrl.addEventListener("mouseout", function (e) {
-        tooltip.remove();
-      });
-
-      mailtoUrl.addEventListener("mouseover", function (e) {
-        document.body.appendChild(tooltip);
-        tooltip.innerHTML = "Send email to andrewjiang@hey.com";
-        Popper.createPopper(mailtoUrl, tooltip, {
-          placement: "bottom",
+        palantirUrl.addEventListener("mouseout", function (e) {
+          tooltip.remove();
         });
-      });
 
-      mailtoUrl.addEventListener("mouseout", function (e) {
-        tooltip.remove();
-      });
+        mailtoUrl.addEventListener("mouseover", function (e) {
+          document.body.appendChild(tooltip);
+          tooltip.innerHTML = "Send email to andrewjiang@hey.com";
+          Popper.createPopper(mailtoUrl, tooltip, {
+            placement: "bottom",
+          });
+        });
+
+        mailtoUrl.addEventListener("mouseout", function (e) {
+          tooltip.remove();
+        });
+      }
     </script>
   </body>
 </html>
