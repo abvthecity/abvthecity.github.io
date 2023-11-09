@@ -3,19 +3,75 @@
   <head>
     <title>Andrew Jiang</title>
   </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geologica:wght@300&display=swap"
+    rel="stylesheet"
+  />
   <style>
     html,
     body {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+
+      font-family: "Geologica", sans-serif;
     }
   </style>
 
   <body>
-    <div>
-      Hello world! 👋 I&rsquo;m Andrew. I&rsquo;m an engineer at Palantir.
+    <div id="animated-type">
+      <!-- Hello world! 👋 I&rsquo;m Andrew. I&rsquo;m an engineer at Palantir.
       I&rsquo;m based in Brooklyn. Say
-      <a href="mailto:andrewjiang@hey.com">hello</a>!
+      <a href="mailto:andrewjiang@hey.com">hello</a>! -->
     </div>
+    <script>
+      const element = document.getElementById("animated-type");
+      let start, frames;
+      const tokens = [
+        "Hello",
+        " world",
+        "!",
+        " 👋",
+        " I",
+        "&rsquo;m",
+        " Andrew",
+        ".",
+        " I",
+        "&rsquo;m",
+        " an",
+        " engineer",
+        " at",
+        " Palantir",
+        ".",
+        " I",
+        "&rsquo;m",
+        " based",
+        " in",
+        " Brooklyn",
+        ".",
+        " Say",
+        ' <a href="mailto:andrewjiang@hey.com">hello</a>',
+        "!",
+      ];
+
+      function step(ts) {
+        if (start == null) {
+          start = ts;
+        }
+
+        const elapsed = ts - start;
+
+        const frame = Math.floor(elapsed / 50);
+
+        element.innerHTML = tokens.slice(0, frame).join("");
+
+        if (frame < tokens.length) {
+          window.requestAnimationFrame(step);
+        }
+      }
+
+      window.requestAnimationFrame(step);
+    </script>
   </body>
 </html>
