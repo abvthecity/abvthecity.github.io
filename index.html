@@ -3,99 +3,117 @@
   <meta charset="utf-8" />
   <head>
     <title>Andrew Jiang</title>
-  </head>
-  <meta
-    name="description"
-    content="This is the website of Andrew Jiang, an engineer based in Brooklyn."
-  />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-  <meta
-    name="theme-color"
-    content="white"
-    media=" (prefers-color-scheme: light)"
-  />
-  <meta
-    name="theme-color"
-    content="black"
-    media=" (prefers-color-scheme: dark)"
-  />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Geologica:wght@300&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    html,
-    body {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-
-      font-family: "Geologica", sans-serif;
-    }
-
-    a,
-    a:visited {
-      color: green;
-    }
-
-    #animated-type {
-      font-size: 1.5em;
-      line-height: 1.5em;
-      padding: 1em;
-    }
-
-    #wave-emoji {
-      transition: transform 150ms ease-in-out;
-      cursor: none;
-      backface-visibility: hidden;
-      padding: 0.5em;
-      margin: -0.5em;
-      z-index: 2;
-      position: relative;
-    }
-
-    #wave-emoji + * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .wave {
-      display: inline-block;
-      transform: scale(1.2);
-      animation: wave 1s ease-in 150ms;
-      animation-iteration-count: infinite;
-    }
-
-    @keyframes wave {
-      0% {
-        transform: rotate(0deg) scale(1.2);
-      }
-      50% {
-        transform: rotate(15deg) scale(1.2);
-      }
-      100% {
-        transform: rotate(0deg) scale(1.2);
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
+    <meta
+      name="description"
+      content="This is the website of Andrew Jiang, an engineer based in Brooklyn."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="theme-color"
+      content="white"
+      media=" (prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="black"
+      media=" (prefers-color-scheme: dark)"
+    />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geologica:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
       html,
       body {
-        background-color: black;
-        color: white;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        font-family: "Geologica", sans-serif;
+        font-weight: 300;
       }
 
       a,
       a:visited {
-        color: lightgreen;
+        color: green;
       }
-    }
-  </style>
+
+      div {
+        box-sizing: border-box;
+      }
+
+      #animated-type {
+        font-size: 1.5em;
+        line-height: 1.5em;
+        padding: 1em;
+      }
+
+      #tooltip {
+        background: white;
+        border: 1px solid black;
+        padding: 4px 8px;
+        font-size: 1em;
+        border-radius: 4px;
+      }
+
+      #wave-emoji {
+        transition: transform 150ms ease-in-out;
+        cursor: none;
+        backface-visibility: hidden;
+        padding: 0.5em;
+        margin: -0.5em;
+        z-index: 2;
+        position: relative;
+      }
+
+      #wave-emoji + * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .wave {
+        display: inline-block;
+        transform: scale(1.2);
+        animation: wave 1s ease-in 150ms;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes wave {
+        0% {
+          transform: rotate(0deg) scale(1.2);
+        }
+        50% {
+          transform: rotate(15deg) scale(1.2);
+        }
+        100% {
+          transform: rotate(0deg) scale(1.2);
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background-color: black;
+          color: white;
+        }
+
+        a,
+        a:visited {
+          color: lightgreen;
+        }
+
+        #tooltip {
+          background: #333;
+          border: none;
+        }
+      }
+    </style>
+  </head>
 
   <body>
     <div id="animated-type">
@@ -103,6 +121,7 @@
       I&rsquo;m based in Brooklyn. Say
       <a href="mailto:andrewjiang@hey.com">hello</a>! -->
     </div>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script>
       const element = document.getElementById("animated-type");
       let start, frames, lastFrame;
@@ -175,6 +194,34 @@
 
       waveEmoji.addEventListener("mouseout", function (e) {
         waveEmoji.classList.remove("wave");
+      });
+
+      const tooltip = document.createElement("div");
+      tooltip.setAttribute("id", "tooltip");
+      tooltip.setAttribute("role", "tooltip");
+
+      palantirUrl.addEventListener("mouseover", function (e) {
+        document.body.appendChild(tooltip);
+        tooltip.innerHTML = "Open palantir.com in a new tab";
+        Popper.createPopper(palantirUrl, tooltip, {
+          placement: "bottom",
+        });
+      });
+
+      palantirUrl.addEventListener("mouseout", function (e) {
+        tooltip.remove();
+      });
+
+      mailtoUrl.addEventListener("mouseover", function (e) {
+        document.body.appendChild(tooltip);
+        tooltip.innerHTML = "Send email to andrewjiang@hey.com";
+        Popper.createPopper(mailtoUrl, tooltip, {
+          placement: "bottom",
+        });
+      });
+
+      mailtoUrl.addEventListener("mouseout", function (e) {
+        tooltip.remove();
       });
     </script>
   </body>
